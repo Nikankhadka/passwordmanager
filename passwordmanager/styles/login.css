@@ -1,0 +1,97 @@
+
+.body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+}
+.loginform{
+  background-color:rgb(244, 189, 189);
+  padding:3rem;
+  margin-top:3rem;
+  border-radius:6px;
+
+
+}
+
+/* flex box only acts on its child content not grandchild */
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+}
+#head{
+  text-align: center;
+}
+
+.inputdiv{
+  width:200px;
+ margin-top:0.5rem;
+  display: flex;
+  flex-direction: column;
+  
+ 
+  
+
+ 
+ 
+}
+.label{
+  font-size: 1rem;
+  font-weight:500;
+  text-align: left;
+
+}
+.input{
+  width: 200px;
+  margin-top:0.5rem;
+  padding:5px 8px 5px 8px;
+  border:3px solid grey;
+  border-radius:5px;
+ 
+}
+
+
+.logreg{
+  width:250px;
+ 
+  padding:1rem;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+.btn{
+  width:100px;
+  padding:6px 4px 6px 4px;
+  border:2px solid grey;
+  border-radius:5px;
+  background-color: azure;
+}
+.btn:hover{
+  background-color:rgb(50, 48, 48);
+  color:aliceblue;
+}
+
+
+.social{
+  width:250px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+.s-btn{
+  margin-top:5px;
+  border:1px solid rgb(48, 46, 46);
+  border-radius: 5px;;
+  width:200px;
+  padding:7px 0px 7px 0px;
+  text-align: center;
+  background-color: azure;
+}
+.s-btn:hover{
+  background-color:rgb(47, 46, 46);
+  color:aliceblue;
+}
