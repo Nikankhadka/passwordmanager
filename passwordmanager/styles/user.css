@@ -1,0 +1,87 @@
+
+
+
+.userbody{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.first-box{
+    border:2px solid red;
+    border-radius: 5px;
+    margin:1rem;
+    background-color:rgb(247, 193, 237);
+    padding:0.5rem;
+    display:flex;
+    flex-flow:column wrap;
+    
+}
+
+
+.content-box{
+    border:2px solid rgb(246, 246, 248);
+    border-radius: 5px;
+    margin:5px;
+    padding:0.7rem;
+    display:flex;
+    flex-flow:row wrap ;
+   justify-content: center;
+   align-items:center;
+   
+
+}
+@media screen and (max-width: 700px) {
+    .content-box{
+        
+        justify-content:flex-start;
+    }
+}
+    
+.holder{
+    
+    display:flex;
+    flex-direction: column;
+}
+
+
+.btns{
+   
+  margin-left:5px;
+}
+.btnn-1,.btnn-2{
+   padding: 8px 16px 8px 16px;
+    margin-left: 5px;
+    border:white 1px solid;
+    border-radius:6px;
+
+}
+
+.btnn-1:hover{
+    background-color:rgb(196, 29, 146);
+    color:white;
+}
+.btnn-2:hover{
+    background-color:rgb(229, 11, 11);
+    color:white;
+}
+
+
+.addcnt{
+   padding:6px 12px 6px 12px;
+   border-radius:6px;
+   border:1px solid white;
+}
+.addcnt:hover{
+    background-color:rgb(245, 171, 238);
+    color:white;
+}
+.formbox{
+    border:2px solid #f6f1f1;
+    border-radius: 5px;
+}
+.accountholder{
+    display:flex;
+    flex-direction:column;
+}
