@@ -1,0 +1,4 @@
+
+
+google client id=618497952754-pfjl95ge0n5q6vntji76cs6fpcqj4aea.apps.googleusercontent.com
+google client secret=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

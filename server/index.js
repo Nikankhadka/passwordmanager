@@ -9,8 +9,8 @@ const cors=require("cors")
 const cookieParser = require("cookie-parser");
 const session=require ("express-session");
 const passport = require("passport");
-
-
+const authroute=require("../server/routes/authroute");
+const useroute=require("../server/routes/cruderoute")
 
 
 
@@ -38,6 +38,11 @@ app.use(passport.initialize());
 app.use(passport.session())
 
 
+
+
+//register the router if want to add prefix for the end in that route add  ("prefix",route)
+app.use(authroute)
+app.use("/user/v1",useroute)
 
 
 
