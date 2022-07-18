@@ -13,6 +13,9 @@ const authroute=require("../server/routes/authroute");
 const useroute=require("../server/routes/cruderoute")
 
 
+//import the main passport startegy
+require("../server/configs/strategy")
+
 
 //middlware registers 
 app.use(express.json());
