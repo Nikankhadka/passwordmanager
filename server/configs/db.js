@@ -1,6 +1,6 @@
 const mongoose=require("mongoose");
 
-async function dbconnect(){
+async function connect(){
     await mongoose.connect("mongodb://localhost/passwordmanager").then(()=>{
         console.log("connected to passwordmanager database")
     }).catch((err)=>{
@@ -10,4 +10,4 @@ async function dbconnect(){
 }
 
 
-module.exports={dbconnect};
+module.exports={connect};

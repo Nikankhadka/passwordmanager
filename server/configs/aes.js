@@ -13,6 +13,7 @@ aes.setSecretKey("dsafsdfsdfsdfsdferfffvvbva21233sdvcxvvcxvdsf554368fdg7823423ds
 //function to encrypt text
 
 async function encrypt(text){
+    console.log("encrypting")
     //first encrypt the text 
     const encryptedtext=await aes.encrypt(text);
     //return the encrypted text
@@ -20,6 +21,7 @@ async function encrypt(text){
 }
 
 async function decrypt(text){
+    console.log("decrypting");
     const decryptedtext=await aes.decrypt(text);
     return decryptedtext;
 }

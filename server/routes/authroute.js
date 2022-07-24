@@ -4,12 +4,19 @@ const passport=require('passport');
 //importing the auith controller
 const authcontroller=require("../controllers/authhandler");
 
-//import main strategy from strategy.js
+//whereever the passports authenticate functions is called import the strategy module there
 require("../configs/strategy");
 
 
 //creating a router instace 
 const router=Router();
+
+
+router.post("/register-user",authcontroller.registerUser);
+
+
+
+
 
 //when using requerst use post for the login route
 router.post("/local-login",passport.authenticate("local"),authcontroller.locallogin)
