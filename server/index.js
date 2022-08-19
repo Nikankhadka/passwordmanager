@@ -8,6 +8,7 @@ const port=2900;
 const cors=require("cors")
 const cookieParser = require("cookie-parser");
 const session=require ("express-session");
+const mongostore=require("connect-mongo")
 const passport = require("passport");
 const authroute=require("../server/routes/authroute");
 const useroute=require("../server/routes/cruderoute")
@@ -31,7 +32,11 @@ app.use(session({
     cookie:{
         //sets the age of cookei to 24 hrs
         maxAge:1000*60*60*24*7
-    }
+    },
+    //stores the session in mongodb incase server crashes
+    store:mongostore.create({
+        mongoUrl:"mongodb://localhost:27017/passwordmanager"
+    })
 }))
 //cookie parse is used to access cookie from headers req.headers.cookie
 app.use(cookieParser())

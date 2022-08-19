@@ -4,8 +4,8 @@ import{useForm} from 'react-hook-form'
 
 //import component 1 at a time 
 import Userform from '../component/userform';
-
-
+import axios from 'axios'
+import * as authfunctions from"../component/authenticatepage"
 
 
 function Accounts(){
@@ -122,24 +122,68 @@ const[accountstate,setaccountstate]=useState("")
 
 
 
+export default function Userpage(){
+    //in this case the auth state must be false to be access login page
+  const [auth,setauth]=useState(false)
+const[user,setuser]=useState("")
+
+  function checkauth(result){
+     //getting the response from the auth functions then rendering the component or redirecting accordingly
+    
+     console.log(result)
+     if(result){
+    setuser(result)
+       setauth(true)
+      
+     }else{
+       alert("please login to acces the page");
+       window.location.href="http://localhost:3000"
+      
+     }
+ 
+  }
+
+  useEffect(()=>{
+   authfunctions.authenticate(checkauth);
+  },[])
+
+
+  return(
+
+    <div>
+        {/* only render the user component if the auth is valid else blank and redirect */}
+        {auth&&<Usercomponent user={user}/>}
+    </div>
+  )
 
 
 
+}
 
-export default function User(){
+
+
+ function Usercomponent(props){
 
     
     //main component return 
     return(
         <div className="userbody">
           
-            <h1> welcome back nikan</h1>
+            <h1> welcome back {props.user}</h1>
 
            <div className="first-box">
 
             <Accounts/>
             <Addaccount/>
-            
+            <button className="addcnt" onClick={(e)=>{
+
+                axios.delete("http://localhost:2900/logout",{withCredentials:true}).then((res)=>{
+                    res.data?window.location.href="http://localhost:3000":alert("logout unsuccessful")
+                }
+                ).catch((error)=>{
+                    console.log(error)
+                })
+            }}>Logout</button>
            </div>
 
         </div>

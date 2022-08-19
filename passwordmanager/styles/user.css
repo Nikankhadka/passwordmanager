@@ -71,7 +71,9 @@
 .addcnt{
    padding:6px 12px 6px 12px;
    border-radius:6px;
-   border:1px solid white;
+   border:1px solid rgb(26, 25, 25);
+   margin-top:5px;
+   font-size: 0.9rem;
 }
 .addcnt:hover{
     background-color:rgb(245, 171, 238);

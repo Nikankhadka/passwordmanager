@@ -2,23 +2,78 @@
 
 
 import {useForm} from "react-hook-form"
-import Userform from "../component/userform";
-
+import axios from "axios";
+import { useState,useEffect } from "react";
+import * as authfunctions from"../component/authenticatepage.js";
 
 export default function Loginpage(){
+
+  //in this case the auth state must be false to be access login page
+  const [auth,setauth]=useState(true)
+
+  function checkauth(result){
+     //getting the response from the auth functions then rendering the component or redirecting accordingly
+    
+     console.log(result)
+     if(!result){
+       setauth(false)
+     }else{
+        alert("User already logged in");
+        window.location.href="/user"
+       console.log("user already logged in ")
+     }
+ 
+  }
+
+
+  useEffect(()=>{
+   authfunctions.authenticate(checkauth);
+  },[])
+
+
+  return(
+      <div>
+        
+        {/* if the state is false then the below component will be loaded */}
+        {!auth&& <Login/>}
+      </div>
+    
+    )
+}
+
+
+
+ function Login(){
 
   //using useform hook from the react hook form rgiter function handlesumnmit and errors funtion
   const{register,handleSubmit,formState:{errors}}=useForm();
  
   function login(formdata){
+    console.log("loggin in ")
     console.log(formdata)
+    
+    axios.post("http://localhost:2900/local-login",{username:formdata.Username,password:formdata.password},{
+      withCredentials:true
+    }).then((response)=>{
+      console.log(response.data)
+      if(response.data=="logged in"){
+        window.location.href="http://localhost:3000/user"
+      }
+    }).catch((err)=>{
+      console.log(err)
+    })
   }
 
 
 
-  function registeruser(formdata){
-    console.log(formdata)
+  async function  registeruser(formdata){
+      console.log("registering user")
+      console.log(formdata)
+     
+      const response=await axios.post(`http://localhost:2900/register-user`,{username:formdata.Username,password:formdata.password})
+      await response.data?alert("user succesfully registered"):alert("user not registered")
   }
+
 
 
   return(
@@ -53,8 +108,8 @@ export default function Loginpage(){
      </form>
 
           <div className="social">
-            <a className="s-btn"> Google</a>
-            <a className="s-btn">Facebook</a>
+            <a  href="http://localhost:2900/google-login"className="s-btn"> Google</a>
+            <a href="http://localhost:2900/facebook-login" className="s-btn">Facebook</a>
             
           </div>
       </div>

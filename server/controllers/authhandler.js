@@ -21,9 +21,25 @@ exports.registerUser=async(req,res)=>{
 
 //this route handler is only accessed when the user is authenticated properly
 exports.locallogin=async(req,res)=>{
-    console.log(req.body);
+    //check for the modified session obj 
     console.log(req.session);
 
     //here the resposnse is passed to client because the api request expects a response 
-    res.send("loggedin");
+    res.send("logged in");
+}
+
+
+//aauthentication middleware function
+exports.isAuthenticated=async(req,res,next)=>{
+    console.log("inside midlle ware to authenticate user");
+    console.log(req.user)
+    req.user? next():res.send(false);
+}
+
+
+//once the user is check by the above middle ware function the request handler passes the repsonse 
+exports.authenticate=(req,res)=>{
+    console.log("authenticatin route user validated")
+    console.log(req.user)
+    res.send(req.user);
 }

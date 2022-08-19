@@ -2,10 +2,14 @@ const passport=require("passport");
 const hash=require("../configs/hash");
 const mongo=require("../configs/db");
 const  usermodel=require("../models/usermodel");
+
+//necessary to get acess to variables in the dotenv
+require("dotenv").config();
+
 //import classes of the strategy to setup
 const {Strategy}=require("passport-local");
-
-
+const GoogleStrategy=require("passport-google-oauth20").Strategy;
+const FacebookStrategy=require("passport-facebook").Strategy;
 
 
 //setup the strategy
@@ -52,6 +56,99 @@ passport.use(
 
 
 
+//now to setup the google strategy
+passport.use(
+    new GoogleStrategy(
+        {
+            clientID:process.env.google_client_id,
+            clientSecret:process.env.google_client_secret,
+            callbackURL:"http://localhost:2900/google-callback"
+        },
+        async(accessToken,refreshToken,profile,done)=>{
+            try{
+                //once the user has been authorized the information is passed into profile 
+
+            const id=profile._json.email;
+
+            await mongo.connect();
+            //check that user in the database
+            const checkUser=await usermodel.usermodel.findOne({
+                id:id
+            })
+            if(checkUser){
+                
+                done(null,id);
+            }else{
+                //add new user doc into the collection
+                const newUser=await  usermodel.usermodel.create({
+                    id:id,
+                    Accounts:[]
+                })
+                newUser.save();
+                done(null,id);
+            }
+
+        }catch(err){
+            console.log(err.message);
+        }
+
+            
+    }
+    )
+    )
+
+
+    //now to setup the google strategy
+passport.use(
+    new FacebookStrategy(
+        {
+            clientID:process.env.facebook_client_id,
+            clientSecret:process.env.facebook_client_secret,
+            callbackURL:"http://localhost:2900/facebook-callback"
+        },
+        async(accessToken,refreshToken,profile,done)=>{
+            try{
+                //once the user has been authorized the information is passed into profile 
+
+            const id=profile._json.id;
+
+            await mongo.connect();
+            //check that user in the database
+            const checkUser=await usermodel.usermodel.findOne({
+                id:id
+            })
+            if(checkUser){
+                
+                done(null,id);
+            }else{
+                //add new user doc into the collection
+                const newUser=await  usermodel.usermodel.create({
+                    id:id,
+                    Accounts:[]
+                })
+                newUser.save();
+                done(null,id);
+            }
+
+        }catch(err){
+            console.log(err.message);
+        }
+
+            
+    }
+    )
+    )
+
+
+
+
+
+
+
+
+
+
+
 
 //only when user is authenticated proprerlu
 passport.serializeUser((id,done)=>{
@@ -67,19 +164,18 @@ passport.serializeUser((id,done)=>{
 
 //once the user is serialized then only this function is called
 passport.deserializeUser(async (id,done)=>{
+    console.log("inside deserializeUser")
     try{
-        console.log("inside deserialize user") 
         await mongo.connect();
-        const checkUser= await usermodel.usermodel.findOne({
-            id:id
-        })
+        const checkUser=await usermodel.usermodel.findOne({id:id});
         if(checkUser){
+            console.log("user found")
             done(null,id)
-            //gets the user id from the passport then attaches the user to req.user enabling to use other function from passport
-        }   
-       
-    }catch(err){
-        console.log(err.message);
+        }else{
+            done(null,null);
+        }
+    }catch(error){
+        console.log(error.message);
     }
    
 })
