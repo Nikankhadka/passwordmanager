@@ -14,7 +14,7 @@ router.post("/",authHandler.isAuthenticated,crudHandler.addAccount);
 
 router.patch("/:email",authHandler.isAuthenticated,crudHandler.updateAccount);
 
-
+router.delete("/:email",authHandler.isAuthenticated,crudHandler.deleteAccount);
 
 
 

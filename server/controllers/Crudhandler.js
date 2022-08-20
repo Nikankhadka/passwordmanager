@@ -6,18 +6,37 @@ const usermodel=require('../models/usermodel')
 exports.getAccounts=async(req,res)=>{
     console.log("inside the get accounds handler funtions");
     console.log(req.user);
-        await usermodel.getAccounts(req.user);
-        res.send("user data retrieved")
+    const Accounts= await usermodel.getAccounts(req.user);
+    res.send(Accounts)
 }
 
 exports.addAccount=async(req,res)=>{
     console.log("inside addd acount");
    const status= await usermodel.addAccount(req.user,req.body.email,req.body.password);
-    status?res.send("account added successfully"):res.send("account already exist")
+    status?res.send({
+        status:true,
+    }):res.send({
+        status:false,
+    })
 }
 
 exports.updateAccount=async(req,res)=>{
     console.log("inside update account");
     console.log(req.params.email)
-    await usermodel.updateAccount(req.user,req.params.email,req.body.email,req.body.password);
+    const updateStatus=await usermodel.updateAccount(req.user,req.params.email,req.body.email,req.body.password);
+    updateStatus?res.send({
+        status:true,
+    }):res.send({
+        status:false,
+    })
+}
+
+exports.deleteAccount=async(req,res)=>{
+    console.log("inside delete account controller")
+    const deleteStatus=await usermodel.deleteAccount(req.user,req.params.email);
+    deleteStatus?res.send({
+        status:true,
+    }):res.send({
+        status:false,
+    })
 }

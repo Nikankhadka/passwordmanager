@@ -3,7 +3,7 @@
 const mongoose=require("mongoose")
 const hash=require("../configs/hash")
 const db=require("../configs/db")
-const aes=require("../configs/crypto")
+const aes=require("../configs/encryption")
 
 //need to define a type for how the account is store in db
 const accountSchema=new mongoose.Schema({
@@ -103,25 +103,18 @@ exports.getAccounts=async(userId)=>{
     try{
         
         await db.connect();
-        // getting user document 
-        const userDocument= await this.usermodel.findOne({
+        // getting user document copy
+        let userDocument= await this.usermodel.findOne({
             id:userId
         })
-        
-        // since we ae getting the copy of the document 
+
+    // modify the fecthed documents instance with decrypted password 
         userDocument.Accounts.forEach((account)=>{
-            account.password="nikhildon1"
+            //replace the password with decrypted password
+            account.password= aes.decrypt(account.password)
         })
         
-        console.log(aes.decrypt(userDocument.Accounts[0].password));
-       
-        
-        
-
-
-
-
-
+         return userDocument.Accounts;
     }
     catch(e){
         console.log(e.message)
@@ -178,11 +171,12 @@ exports.addAccount=async(userId,email,password)=>{
 
 }
 
+
 exports.updateAccount=async(userId,email,newemail,newpassword)=>{
 try{
         console.log("update account bhitra")
        await db.connect();
-       const updateAccountStatus= await this.usermodel.updateMany({
+       const updateAccountStatus= await this.usermodel.updateOne({
         id:userId,"Accounts.email":email
        },{
         $set:{
@@ -192,13 +186,35 @@ try{
        }
        )
 
-       console.log(updateAccountStatus);
-
-
+         console.log(updateAccountStatus);
+         return true;
 
 }catch(e){
     console.log(e.message)}
 
 
 
+}
+
+exports.deleteAccount=async(userId,email)=>{
+    try{
+        console.log('delete account model bhitra')
+        await db.connect();
+        // query need tbe awaited because it make take time
+        const deleteAccountStatus=await this.usermodel.updateOne({
+            id:userId
+        },{
+            $pull:{
+                Accounts:{
+                    email:email
+                }
+            }
+        })
+
+        console.log(deleteAccountStatus);
+        return true;
+    }
+    catch(e){
+        console.log(e.message)
+    }
 }
