@@ -5,16 +5,17 @@ const crudHandler=require("../controllers/crudhandler");
 
 
 //any of the routes here should not be accessible without authentication
+//registration the middle ware function to route for protection
+router.use(authHandler.isAuthenticated)
 
 
+router.get("/",crudHandler.getAccounts);
 
-router.get("/",authHandler.isAuthenticated,crudHandler.getAccounts);
+router.post("/",crudHandler.addAccount);
 
-router.post("/",authHandler.isAuthenticated,crudHandler.addAccount);
+router.patch("/:email",crudHandler.updateAccount);
 
-router.patch("/:email",authHandler.isAuthenticated,crudHandler.updateAccount);
-
-router.delete("/:email",authHandler.isAuthenticated,crudHandler.deleteAccount);
+router.delete("/:email",crudHandler.deleteAccount);
 
 
 

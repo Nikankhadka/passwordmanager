@@ -9,13 +9,29 @@ import * as authfunctions from"../component/authenticatepage"
 
 
 function Accounts(){
-
-
-//    used unique id baseed rendering so that while mapping a  single state would not generate form for all account
+    //    used unique id baseed rendering so that while mapping a  single state would not generate form for all account
 //since to render the form id and the id in the form index must match
-    const [accountstate,setaccountstate]=useState("")
-    const[er,seteror]=useState(false);
-    const nik=["nikan","khadka","rudara","khadka"]
+const [accountUpdate,setaccountUpdate]=useState("")
+const[er,seteror]=useState(false);
+    const [Accounts,setAccounts]=useState([])
+
+
+    useEffect(()=>{
+        console.log("inside use effect")
+      axios.get("http://localhost:2900/user/v1",{
+            // the credentil propertty is necessary so that server can use session id to get user data for deserialize user function
+            withCredentials:true
+        }).then((res)=>{
+            console.log(res.data)
+            setAccounts(res.data);
+        }).catch((err)=>{
+            console.log(err);
+        })
+        
+      
+
+    },[])
+
 
 
 
@@ -32,25 +48,25 @@ function Accounts(){
     return(
         <div className="accounts">
             {
-                nik.map((item)=>{
+                Accounts.map((item)=>{
                     return(
                         <div className="accountholder">
 
                         <div className="content-box">
                             <div className="account">
-                            <h3>Account:...............................................</h3>
-                            <p>Password:{item}</p>
+                            <h3>Account:{item.email}</h3>
+                            <p>Password:{item.password}</p>
                             </div>
                             <div className="btns">
                             <button className="btnn-1" value="asdfasdf" onClick={()=>{
-                                    setaccountstate(item)   
+                                    setaccountUpdate(item.email)   
                             }}>Edit</button>
                             <button className="btnn-2"> Delete</button>
                             </div>
                            
                         </div>
                      {/* conditoanlly redndering the form component */}
-                     {accountstate==item? <Userform  btn1="Edit" fnbtn1={editaccount} btn2="Cancel" setaccountstate={setaccountstate}  seteror={er} input={false}   />:console.log("dont render shit")}
+                     {accountUpdate==item.email? <Userform  btn1="Edit" fnbtn1={editaccount} btn2="Cancel" setaccountstate={setaccountstate}  seteror={er} input={false}   />:console.log("dont render shit")}
 
                      </div>
                      
@@ -90,8 +106,22 @@ const[accountstate,setaccountstate]=useState("")
 
 
           //get form data and save account information in db 
-          function saveAccount(formdata){
+         async function saveAccount(formdata){
             console.log(formdata)
+           const response= await  axios.post("http://localhost:2900/user/v1",{
+                email:formdata.account,
+                password:formdata.password
+            },
+            {
+                withCredentials:true
+            })
+
+            if(response.data.status){
+                console.log("account added")
+                alert("account succesfully added")
+            }else{
+                alert("account not added")
+            }
           }
            
 
