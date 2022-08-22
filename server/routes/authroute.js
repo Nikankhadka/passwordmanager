@@ -44,7 +44,7 @@ router.get("/facebook-callback",passport.authenticate("facebook",{
 
 
 router.delete("/logout",async (req,res)=>{
-    console.log("inside the logout route")
+    
     await req.session.destroy();
     //now delete the cookie data from the browser and send the res
     res.clearCookie("connect.sid").send(true);

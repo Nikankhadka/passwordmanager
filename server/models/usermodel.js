@@ -174,20 +174,43 @@ exports.addAccount=async(userId,email,password)=>{
 
 exports.updateAccount=async(userId,email,newemail,newpassword)=>{
 try{
-        console.log("update account bhitra")
+       
        await db.connect();
-       const updateAccountStatus= await this.usermodel.updateOne({
-        id:userId,"Accounts.email":email
-       },{
-        $set:{
-            "Accounts.$.email":newemail,
-            "Accounts.$.password":await aes.encrypt(newpassword)
-        }
-       }
-       )
+    // need to check whether new emial or password is properly passed or not
+    if(newemail!="" && newpassword!=""){
+        const updateAccountStatus= await this.usermodel.updateOne({
+            id:userId,"Accounts.email":email
+           },{
+            $set:{
+                "Accounts.$.email":newemail,
+                "Accounts.$.password":await aes.encrypt(newpassword)
+            }
+           }
+           )
+        return true;
+    }else if(newemail!=""){
+        const updateAccountStatus= await this.usermodel.updateOne({
+            id:userId,"Accounts.email":email
+           },{
+            $set:{
+                "Accounts.$.email":newemail
+            }
+           }
+           )
+        return true;
+    }else if(newpassword!=""){
+        const updateAccountStatus= await this.usermodel.updateOne({
+            id:userId,"Accounts.email":email
+           },{
+            $set:{
+                "Accounts.$.password":await aes.encrypt(newpassword)
+            }
+           }
+           )
+        return true;
+    }
 
-         console.log(updateAccountStatus);
-         return true;
+    
 
 }catch(e){
     console.log(e.message)}
@@ -195,6 +218,8 @@ try{
 
 
 }
+
+
 
 exports.deleteAccount=async(userId,email)=>{
     try{

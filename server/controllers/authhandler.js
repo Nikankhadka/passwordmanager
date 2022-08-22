@@ -30,16 +30,12 @@ exports.locallogin=async(req,res)=>{
 
 
 //aauthentication middleware function
-exports.isAuthenticated=async(req,res,next)=>{
-    console.log("inside midlle ware to authenticate user");
-    console.log(req.user)
+exports.isAuthenticated=(req,res,next)=>{
     req.user? next():res.send(false);
 }
 
 
 //once the user is check by the above middle ware function the request handler passes the repsonse 
 exports.authenticate=(req,res)=>{
-    console.log("authenticatin route user validated")
-    console.log(req.user)
     res.send(req.user);
 }

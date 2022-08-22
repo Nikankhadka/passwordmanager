@@ -18,7 +18,7 @@ export default function Loginpage(){
      if(!result){
        setauth(false)
      }else{
-        alert("User already logged in");
+      
         window.location.href="/user"
        console.log("user already logged in ")
      }

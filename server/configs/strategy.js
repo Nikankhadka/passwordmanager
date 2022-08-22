@@ -164,12 +164,12 @@ passport.serializeUser((id,done)=>{
 
 //once the user is serialized then only this function is called
 passport.deserializeUser(async (id,done)=>{
-    console.log("inside deserializeUser")
+    
     try{
         await mongo.connect();
         const checkUser=await usermodel.usermodel.findOne({id:id});
         if(checkUser){
-            console.log("user found")
+           
             done(null,id)
         }else{
             done(null,null);

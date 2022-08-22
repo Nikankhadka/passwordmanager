@@ -11,7 +11,7 @@ import * as authfunctions from"../component/authenticatepage"
 function Accounts(){
     //    used unique id baseed rendering so that while mapping a  single state would not generate form for all account
 //since to render the form id and the id in the form index must match
-const [accountUpdate,setaccountUpdate]=useState("")
+const [accountstate,setaccountstate]=useState("")
 const[er,seteror]=useState(false);
     const [Accounts,setAccounts]=useState([])
 
@@ -40,7 +40,18 @@ const[er,seteror]=useState(false);
         if(formdata.account==""&&formdata.password==""){
             seteror(true)
         }else{
-            console.log("one of the data will be updated")
+            //since on clicking edit the id which we want to edit is set to state we can use that to pass into route para
+        axios.patch(`http://localhost:2900/user/v1/${accountstate}`,{
+            email:formdata.account,
+            password:formdata.password
+        },{
+            withCredentials:true
+        }).then((res)=>{
+            res.data.status?alert("account updated"):alert("account not updated")
+        }).catch((ee)=>{
+            console.log(ee)
+        })
+
         }
 
     }
@@ -55,18 +66,28 @@ const[er,seteror]=useState(false);
                         <div className="content-box">
                             <div className="account">
                             <h3>Account:{item.email}</h3>
-                            <p>Password:{item.password}</p>
+                            <h4>Password:{item.password}</h4>
                             </div>
                             <div className="btns">
                             <button className="btnn-1" value="asdfasdf" onClick={()=>{
-                                    setaccountUpdate(item.email)   
+                                    setaccountstate(item.email)   
                             }}>Edit</button>
-                            <button className="btnn-2"> Delete</button>
+                            <button className="btnn-2" onClick={()=>{
+                                axios.delete(`http://localhost:2900/user/v1/${item.email}`,{
+                                    withCredentials:true
+                                }).then((res)=>{
+                                    res.data.status?alert("Account deleted"):console.log("account not deleted")
+                                }).catch((ee)=>{
+                                    console.log(ee)
+                                })
+
+
+                            }}> Delete</button>
                             </div>
                            
                         </div>
                      {/* conditoanlly redndering the form component */}
-                     {accountUpdate==item.email? <Userform  btn1="Edit" fnbtn1={editaccount} btn2="Cancel" setaccountstate={setaccountstate}  seteror={er} input={false}   />:console.log("dont render shit")}
+                     {accountstate==item.email? <Userform  btn1="Edit" fnbtn1={editaccount} btn2="Cancel" setaccountstate={setaccountstate}  seteror={er} input={false}   />:console.log("dont render shit")}
 
                      </div>
                      
@@ -118,6 +139,8 @@ const[accountstate,setaccountstate]=useState("")
 
             if(response.data.status){
                 console.log("account added")
+                setaccountstate("")
+            
                 alert("account succesfully added")
             }else{
                 alert("account not added")

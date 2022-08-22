@@ -21,9 +21,10 @@ exports.addAccount=async(req,res)=>{
 }
 
 exports.updateAccount=async(req,res)=>{
-    console.log("inside update account");
-    console.log(req.params.email)
-    const updateStatus=await usermodel.updateAccount(req.user,req.params.email,req.body.email,req.body.password);
+
+    // be familaiar with using array and object destructuring
+    const {email,password}=req.body;
+    const updateStatus=await usermodel.updateAccount(req.user,req.params.email,email,password);
     updateStatus?res.send({
         status:true,
     }):res.send({
