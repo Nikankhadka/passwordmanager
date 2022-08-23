@@ -1,1 +1,50 @@
 this is post view of the application and things i used and learned while making this application
+
+
+front end portion things i did and learned while making the application 
+
+since i made the application on react i wanted to follow dry principle so madea single form component which can be used for adding and editiog account both. for that since we can pass state  
+value and functin through props while calling the component i used it to pass state along with  value and callback function which is then passed into onlclick event funciton 
+and handle submits callback to get form data in the main component and use that to send api request.
+
+the other thing i learned was we cannot pass async callback function in useeffect hook react, gives destroy fcuntion error we can nest fcuntion like callback and asunc then call async functioin into callback 
+or just write the reusable fcntion outisde and call that into useeffects callback fcuntion.
+
+and async fcuntion on api base only returns promise so if u want to use response of api called inside an async function pass a callback function to use that response.
+
+
+//for authentication and client side routing created a main content  compoennt along with defalut compoentn which by default is blank and with use ffect a api request is passed
+and inside that async funciton passed a callback whiich according to response change the state and consitionally render the main component else will render the other page/ component 
+
+
+//the other thing i did when user loggs in the accounts data is fetched from data base and mapped to create ui, but along with that edit and delete button also comes.
+so if u set onlcik then during that time the current iteration of accounts that is cliked will be accesible to use for that event,
+but for dit we need to load form compoennt below the mapped account so for that i conditionally called the form compoennt just below the div the component will only render
+when a state for account matches the account of current iteration of data.
+accounts==item.account&&form compoent wo when accounts which is state gets updated on clicking edit then dudirng re render the map fcuntions return ui while also checking
+for the form compoennt condiiton to macth, so when states value mathes the current iteration of account the form component is rendered, i also ccreated a callback function to handle
+the form action which is passed through props to handlesubmit to get formdata
+
+//that is all for front end portion.
+
+
+
+//////////////////////////////////Backend////////////////////////////////////////////
+first setup basic express apllicaiton with middle ware function now onto the security and authentication portion of the applicaition.
+
+i used passport js middle ware library for authentication and authorization, since it is session based and also uses cookie to store the session id i needed to learn about that 
+
+but first we need to make our server is secure and only recieve request from secure cleint so setup cors middle ware in exporess and also specify the cleint url and also give credential access
+so that we can access the headers property.
+
+since in this authentication process used in the application usess session install express sesiion module and also regsiyter that to express applcaition(using app.use())
+and also pass int the necessary properyt and also modify the cookie property which is basically used to store session id in cleint side on api request using the same 
+session id we can access the session in server.
+for store property use connect mongo modle and mongostore to be able to store session data in the server incase the server crashes the usersession data wont be loss, only 
+when use logs out or the session cookie expires then data will be lost.
+
+
+
+
+
+
