@@ -44,6 +44,70 @@ for store property use connect mongo modle and mongostore to be able to store se
 when use logs out or the session cookie expires then data will be lost.
 
 
+//import passport and also regisyer the initialize and passport.session into the application .
+
+using router seperate the routes for more cleaner code implementration 
+
+//before going into passport we used encryptiona and hashing in the projct to make the information is secure and even if leaked it wil  be hard to decode .
+for that bcryot library was used to hash the main users passswrod since the hashsed passeord cannot be unhashed we use compare funciton to compare the inputed paswword with th
+ hashed passeord store in data base to veriy the user .which in this case represesnts the single document in collection.
+and aes encryption was used to encode and decde the user password details for specific accounts.
+
+and since the aes encryption is used as modules is already isntalled it isnot neccessarut to make the code async only delays the exection such while chneging the 
+docuemnt fethced await messed up the decoding process since the decoding didnot take much time so the passwowrd was not modified better to use direct flow in this case.
+
+
+//in this project i used mongodb databse since i just learned this database was not familiar with the query methods it was hard to struture the data. int he utils/configs 
+i creare modeules for the fcuntions used through out the applicaiton as discussed above.
+so connect function is used establish database connection in mongodb.
+
+
+//now moving onto the passport js since i have already completed simple authentication application and also familar with dos donts and also new things . i will include few pointers
+
+setup the applcaition on google console and meta for develoeprs be sure to pass in credential such as callback route apllpcaition route into google console, facebook deosnot need taht 
+
+for local strategy it is simple send post request with username and passeord in body  and also pass credentioal 
+without credential passport wont be able to attach the session cookie onto the browser
+which the middleware funciuton passport.authenticate()will work on be sure to requre the strategy modules into 
+auth route then according the strategy setup done funcitons will be called once everything is verified and passed to serialize user samting done then user will  be atteached to req.session.passport.user
+
+
+the deserialize user funciton will only be called if there is session cookie in client else it will be not be called deserilaize user function will attched userid to req.user==
+
+similarly for other startegy make put link let browser send get request because the middle ware functin will redirect to main accont selecton console in the  middle ware define trhe scope of data that 
+is going to be fetched then once the account has been athurized then the details is passed into callback function where the middle ware will fetech the data and work according 
+to strategy setup then serialize the user same process once this is complete then lieke local user can get acccess to request handler else u can define the succes redirect and failure redirect in the middlw itseld
+
+
+alwys know that cors error might occure if u send api request for google and facebook startegy since they wait for response but redirection completedly chabnges the source so.
+
+
+for logout function req.session.destroy or req.loogut funciton can be called and also clear cookie in res.clearcookie fucntion
+
+
+//similaruly make not of 
+mongoose 
+schema defines the strcuture of the document that is goingto hbe stored inside the collection, model defined with the schema reepsetns the instacne of the coillectio which can be ised 
+to query documents within the collectiont that the model represents , 
+i have is authenticate middle ware function to protect all the crud routes so they are safe
+
+
+//new thng i have learned 
+
+since router helps to make brenches for exporess applcaiton roruter can also define multiple routes with own prefix and crud reques
+router.route(:/").get().post() like wise
+
+//the model instance or any funciton propety that is exported if want to be used inside its own mnodule then this key word will represnt the module instance to access the proeptry
+within that module.
+
+
+//try to use return key even for sending reponse to stop unnecessary code execution.
+//the document fetched from collection can be modiefied before sending data back to the controller , i was not able to do that beacause of module and also async fcunont blockinght code execution during the looping process
+
+//always save the main applicaiton credential in an env file and dont commit that to github
+
+//for each startegy we need to install module and use strategy instacne passport.use(new startegy()) or directuly pass the argument into custromer which is the credential 
+and also callback fucntion which basically defines the code execution for complete strategy
 
 
 
