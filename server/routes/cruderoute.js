@@ -1,7 +1,7 @@
 const {Router}=require("express");
 const router=Router();
 const authHandler=require("../controllers/authhandler");
-const crudHandler=require("../controllers/crudhandler");
+const crudHandler=require("../controllers/Crudhandler");
 
 
 //any of the routes here should not be accessible without authentication
