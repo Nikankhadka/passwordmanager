@@ -60,8 +60,8 @@ passport.use(
 passport.use(
     new GoogleStrategy(
         {
-            clientID:process.env.google_client_id,
-            clientSecret:process.env.google_client_secret,
+            clientID:"16273442199-j75mbfaavb22o8am8o2m1ul757uc25l9.apps.googleusercontent.com",
+            clientSecret:"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",
             callbackURL:"http://localhost:2900/google-callback"
         },
         async(accessToken,refreshToken,profile,done)=>{
@@ -102,8 +102,8 @@ passport.use(
 passport.use(
     new FacebookStrategy(
         {
-            clientID:process.env.facebook_client_id,
-            clientSecret:process.env.facebook_client_secret,
+            clientID:"629762198082725",
+            clientSecret:"3a4e302440bf3ab0fd6b5f2866127276",
             callbackURL:"http://localhost:2900/facebook-callback"
         },
         async(accessToken,refreshToken,profile,done)=>{
